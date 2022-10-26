@@ -40,8 +40,10 @@ export default function Home() {
     updateSearchInput(e.target.value);
   });
 
-  useEffect(() => {}, [searchInput]);
-  // console.log("", tempCountries);
+  useEffect(() => {
+    const searchedData = countries?.filter((it) => it.CountryCode === searchInput);
+    updateCountries(searchedData);
+  }, [searchInput]);
   return (
     <>
       <div>

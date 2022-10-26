@@ -1,6 +1,5 @@
 import "./SearchBar.css";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
 import searchIcon from "./searchIcon.svg";
 type SearchProps = {
   styleSheet?: React.CSSProperties;

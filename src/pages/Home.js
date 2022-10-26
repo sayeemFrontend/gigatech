@@ -1,30 +1,17 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import CountryView from "../components/country-view/CountryView";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import CountryView from "../components/country-view/CountryView";
 import SearchBar from "../components/search-bar/SearchBar";
-import { addCountry } from "../slices/countrySlice";
+import "./home.css";
 
 export default function Home() {
   const { countries } = useSelector((state) => state.countries);
   const [tempCountries, updateCountries] = useState([]);
-  const [searchInput, updateSearchInput] = useState("");
-  const dispatch = useDispatch();
 
-  const getCountry = async () => {
-    const res = await axios.get("https://api.covid19api.com/summary");
-    dispatch(addCountry(res.data.Countries));
-  };
   useEffect(() => {
-    getCountry();
     updateCountries(countries);
   }, [countries]);
 
-  useEffect(() => {
-    updateCountries(tempCountries);
-  }, [tempCountries]);
-
-  console.log(countries);
   function debounce(func, timeout = 800) {
     let timer;
     return (...args) => {
@@ -36,20 +23,38 @@ export default function Home() {
   }
 
   const handleSearch = debounce((e) => {
-    updateCountries([]);
-    updateSearchInput(e.target.value);
+    const input = e.target.value.toUpperCase();
+    const searchedData = countries?.filter((it) => it.CountryCode.includes(input));
+    updateCountries(searchedData);
   });
 
-  useEffect(() => {
-    const searchedData = countries?.filter((it) => it.CountryCode === searchInput);
-    updateCountries(searchedData);
-  }, [searchInput]);
   return (
     <>
       <div>
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar placeholder="Search Here" onSearch={handleSearch} />
       </div>
-      <div className="body">{/* <CountryView data={tempCountries} /> */}</div>
+      <div className="home-body">
+        <div className="list-view">
+          <h1 style={{ color: "red" }}>Contries:</h1>
+          {tempCountries.length > 0 ? (
+            tempCountries?.map((data) => (
+              <div key={data.Country}>
+                <h3>
+                  {data.Country}, {data.CountryCode}
+                </h3>
+              </div>
+            ))
+          ) : (
+            <div>
+              <h2>No Data...</h2>
+            </div>
+          )}
+        </div>
+        <div className="map-view">
+          <h1 style={{ color: "red" }}>Map here:</h1>
+          {tempCountries.length > 0 && <CountryView data={tempCountries.slice(0, 10)} />}
+        </div>
+      </div>
     </>
   );
 }

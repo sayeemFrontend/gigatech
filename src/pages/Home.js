@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import CountryView from "../components/country-view/CountryView";
+import CountryView from "../components/country-view/CountryView";
 import SearchBar from "../components/search-bar/SearchBar";
 import "./home.css";
 
@@ -52,7 +52,7 @@ export default function Home() {
         </div>
         <div className="map-view">
           <h1 style={{ color: "red" }}>Map here:</h1>
-          {/* <CountryView data={tempCountries} /> */}
+          {tempCountries.length > 0 && <CountryView data={tempCountries.slice(0, 10)} />}
         </div>
       </div>
     </>

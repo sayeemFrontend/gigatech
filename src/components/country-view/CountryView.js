@@ -1,24 +1,24 @@
-import React from "react";
-import WorldMap from "react-svg-worldmap";
-// import "./App.css";
+import React, { useEffect } from "react";
+import WorldMap from "react-svg-worldmap-pi";
+type PropsType = {
+  data: [],
+};
+export default function CountryView({ data }: PropsType) {
+  const newData = data?.map((da) => {
+    let temp = {
+      country: da.CountryCode.toLowerCase(),
+      value: da.TotalDeaths,
+    };
+    return temp;
+  });
 
-export default function CountryView() {
-  const data = [
-    { country: "cn", value: 1389618778 }, // china
-    { country: "in", value: 1311559204 }, // india
-    { country: "us", value: 331883986 }, // united states
-    { country: "id", value: 264935824 }, // indonesia
-    { country: "pk", value: 210797836 }, // pakistan
-    { country: "br", value: 210301591 }, // brazil
-    { country: "ng", value: 208679114 }, // nigeria
-    { country: "bd", value: 161062905 }, // bangladesh
-    { country: "ru", value: 141944641 }, // russia
-    { country: "mx", value: 127318112 }, // mexico
-  ];
+  useEffect(() => {
+    const doc = document.getElementsByClassName("worldmap__figure-caption");
+  }, []);
 
   return (
     <div className="App">
-      <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="lg" data={data} />
+      <WorldMap color="red" title="Top 10 Populous Countries" value-suffix="people" size="lg" data={newData} />
     </div>
   );
 }

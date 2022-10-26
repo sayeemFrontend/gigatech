@@ -1,0 +1,19 @@
+.home-body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.home-body .map-view,
+.home-body .list-view {
+  width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+  .home-body {
+    flex-direction: row;
+  }
+  .home-body .map-view,
+  .home-body .list-view {
+    width: 50%;
+  }
+}
